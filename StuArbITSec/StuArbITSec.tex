@@ -186,7 +186,7 @@ File Extended Attributes sind Datenstrukturen, die erweiterte Metadaten beherber
 Der Exploit nutzt mehrere Fehler im SMBv1 Netzwerkprotokoll aus, wodurch Remote Code Execution auf verwundbaren Windows Maschinen ermöglicht wird.\\ Hierfür wird ein Paket zusammengestellt, welches insbesondere drei Fehler im Protokoll ausnutzt, um eine Payload zu platzieren und auszuführen oder eine Verbindung zum Remote Host aufzubauen \cite{Medium}. 
 
 \section{Falsches Casten einer FEA Liste}
-Da einer der Hauptverwendungszwecke des SMB Protokolls der plattformunabhängige Austausch von Dateien  ist, muss es auch entsprechende Strukturen zur Übermittlung von ihnen geben, wozu auch deren FEAs gehören. Diese werden in Listen gespeichert und können in unterschiedlichen Formaten entsprechend des Betriebssystems bzw der Dateistruktur vorliegen. Durch Casten kann zwischen den verschiedenen FEA und Listenformaten gewechselt werden. Ihre Strukturen sind im Code näher beschrieben\cite{CP}.
+Da einer der Hauptverwendungszwecke des SMB Protokolls der plattformunabhängige Austausch von Dateien  ist, muss es auch entsprechende Strukturen zur Übermittlung von ihnen geben, wozu auch deren FEAs gehören. Diese werden in Listen gespeichert und können in unterschiedlichen Formaten entsprechend des Betriebssystems bzw der Dateistruktur vorliegen. Durch Casten kann zwischen den verschiedenen FEA- und Listenformaten konvertiert werden. Ihre Strukturen sind im Code näher beschrieben\cite{CP}.
 
 \begin{lstlisting}[language=C,caption={My Caption},captionpos=b]
 /**
