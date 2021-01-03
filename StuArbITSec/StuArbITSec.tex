@@ -4,7 +4,7 @@
 \usepackage[ngerman]{babel}
 \usepackage{tocbasic}
 \usepackage{graphicx}
-\usepackage[linkcolor=black,colorlinks=true,urlcolor=gray,breaklinks=true]{hyperref}
+%\usepackage[linkcolor=black,colorlinks=true,urlcolor=gray,breaklinks=true]{hyperref}
 \usepackage{scrlayer-scrpage}
 \usepackage{longtable}
 \usepackage{caption}
@@ -18,18 +18,17 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
-\usepackage{helvet}
+%\usepackage{arial}
 \usepackage{ragged2e}
 
 \usepackage{parcolumns}
-%\usepackage[nohyperlinks, printonlyused, withpage, smaller]{acronym}
-%\usepackage[backend=biber,style=numeric,citestyle=numeric]{biblatex}
-%\usepackage{csquotes}
 
-%for url breaks
-%\usepackage{breakurl}
-%\def\UrlBreaks{\do\/\do-}
+%urls and breaking them correctly
+\usepackage[hyphens]{url}
+\usepackage{xurl}
+\PassOptionsToPackage{hyphens}{url}\usepackage[citecolor=blue,linkcolor=black,colorlinks=true,urlcolor=gray,breaklinks=true]{hyperref}
 
+%for displaying code correctly
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -146,10 +145,10 @@ Auch Null Session Connection; Lässt anonyme Verbindungen auf SMB Server zu\\
 
 
 \chapter{Disclaimer}
-Da Microsofts Implementierung des SMB Protokolls deren geistiges Eigentum ist, muss sich an die Nutzungsbedingungen gehalten werden. Deshalb muss eingeräumt werden, dass es sich bei den in der Studienarbeit vorkommenden Codefragmenten um realitätsnahen Pseudocode aus Online-Quellen und nicht um tatsächlichen dekompilierten Code handelt \cite{MS:LicTerm}. Weiterhin gibt es viele verschiedene Skripte, die auf unterschiedliche Art und Weise die Programmierfehler ausnutzen, die zum Exploit führen. Auch unterscheidet sich die Erfolgswahrscheinlichkeit stark je nach Windowsversion. Ebenso liegen Crashes der angegriffenen Maschine in der Natur des Exploits.
+Da Microsofts Implementierung des SMB Protokolls deren geistiges Eigentum ist, muss sich an die Nutzungsbedingungen gehalten werden. Deshalb muss eingeräumt werden, dass es sich bei den in der Studienarbeit vorkommenden Codefragmenten um Code aus Online-Quellen handelt und keine Treiber dekompiliert wurden \cite{MS:LicTerm}. Weiterhin gibt es viele verschiedene Skripte, die auf unterschiedliche Art und Weise die Programmierfehler ausnutzen, die zum Exploit führen. Auch unterscheidet sich die Erfolgswahrscheinlichkeit stark je nach Windowsversion und Exploittechniken der Skripte. Deshalb liegen Crashes der angegriffenen Maschine in der Natur des Exploits.
 
 
-\chapter{Malware auf EternalBlue Basis}
+\chapter{EternalBlue Malware}
 In vielerlei Hinsicht ist die Entstehungsgeschichte des EternalBlue Exploits eng mit der US-amerikanischen National Security Agency verbunden. Eine Unterabteilung der Agency, zum damaligen Zeitpunkt als ''Tailored Access Operations'' bekannt \cite{CS}, untersuchte über ein Jahr lang das Windows Betriebssystem auf Schwächen, die der Agency beim Zugriff auf fremde Systeme helfen könnten\cite{WP}. Letzten Endes wurden mehrere Sicherheitslücken im SMB Protokoll der Windows Plattform gefunden, die es ermöglichten, mittels eines speziell angefertigten Paketes einen Rechner zu kapern und auf ihm beliebigen Code auszuführen \cite{Avast}.
 Eigens für die Sicherheitslücke, die später als CVE-2017-0144 veröffentlicht wurde, programmierte die Agency das Hacking-Tool EternalBlue, so benannt nach der Tendenz, die angegriffenen Rechner zu crashen, was einen Bluescreen als Folge hatte. Das Hacking Tool zählte intern zur NOBUS-Gruppe (Nobody but us), da eine solche Sicherheitslücke aufgrund der enormen Konsequenzen nie an die Öffentlichkeit gelangen sollte \cite{CS}. Dieses Vorgehen, Zero-Day-Exploits zu sammeln und zu Waffen umzufunktionieren sorgte schon damals in einigen NSA Officials für Unbehagen, was, wie sich herausstellte, eine berechtigte Kritik war \cite{WP}.
 Jedoch kam es genau zu einem solchen Ernstfall, als die Hackergruppe der 'Shadow Brokers' im August 2016 die gesamte Familie der SMB-Schwachstellen zusammen mit dem Hacking Tool in einem Leak, der als "Lost in Translation" bezeichnet wurde \cite{Medium:ExpBible}, veröffentlichte. Somit waren auch Amateure fähig, die Lücke zu nutzen, um Schaden anzurichten. Die NSA reagierte zunächst lediglich mit einer Benachrichtigung an Microsoft, klärte allerdings den generellen Populus nicht bezüglich der enormen Gefahr, die von dem Leak ausging, auf \cite{WP}.
@@ -157,7 +156,7 @@ Jedoch kam es genau zu einem solchen Ernstfall, als die Hackergruppe der 'Shadow
 \begin{figure}[H]
     \centering
     \includegraphics[width=10cm]{wanna_decrypt0r_2.0.png}
-    \caption[WannaDecryptor Screenshot, URL: \url{https://securelist.com/   wannacry-ransomware-used-in-widespread-attacks-all-over-the-world/78351/}]{Ein Screenshot des  WannaDecryptor 2.0 Virus}
+    \caption[WannaDecryptor Screenshot (SecureList) URL: \url{securelist.com/wannacry-ransomware-used-in-widespread-attacks-all-over-the-world/78351/}]{Ein Screenshot des  WannaDecryptor 2.0 Virus}
     \label{img:wanna_decrypt0r}
 \end{figure}
 
@@ -167,7 +166,7 @@ Am 12. Mai 2017 wurde das gewaltige Gefahrenpotenzial dann realisiert. Ein Ranso
 \begin{figure}[H]
     \centering
     \includegraphics[width=10cm]{notpetya_ransomware.jpg}
-    \caption[NotPetya Screenshot, Nutzer ''GrEat''/Kaspersky, URL: \url{https://media.kasperskydaily.com/wp-content/uploads/sites/92/2017/06/27133735/wannamore-ransomware-screenshot.jpg}]{Screenshot einer Variante des WannaCry Virus}
+    \caption[NotPetya Screenshot, Nutzer ''GrEat'' (Kaspersky), URL: \url{https://media.kasperskydaily.com/wp-content/uploads/sites/92/2017/06/27133735/wannamore-ransomware-screenshot.jpg}]{Screenshot einer Variante des WannaCry Virus}
     \label{img:not_petya}
 \end{figure}
 
@@ -175,39 +174,38 @@ Am 12. Mai 2017 wurde das gewaltige Gefahrenpotenzial dann realisiert. Ein Ranso
 Als noch verheerender erwies sich der NotPetya Virus, eine mit dem EternalBlue-Kern aufgerüstete Version eines bereits im Vorjahr umgehenden, weniger bekannten und weitaus weniger schädlichen Virus am 16.6.2017. NotPetra zeichnete sich dadurch aus, dass sowohl MBR als auch MFT verschlüsselt worden sind, was eine Wiederherstellung der Daten unmöglich machte, auch wenn der Sperrbildschirm dies gegen 300 USD versprach. Der durch diese zweite gigantische Ransomware-Welle verursachte Schaden wurde auf etwa 10 Milliarden USD geschätzt, wobei der Datenverlust und die Menschenleben, die durch lahmgelegte Rechner in Krankenhäusern und öffentlichen Einrichtungen in Gefahr gebracht worden sind, nicht mit eingerechnet sind \cite{Avast}.\\
 Wie sich nach Analyse der Malware heruasstellte besaß keiner der beiden Viren, insbesondere wie oben beschrieben NotPetya, die nötige Infrastruktur auf, um nach dem Zahlen des Lösegelds in Bitcoin das Entschlüsseln der Daten wieder zu ermöglichen. Das lässt darauf schließen, dass nicht monetäere Gewinn, sondern Schaden das Hauptziel der Hacker war \cite{Sil}.
 
-
 \noindent
 Microsoft reagiere im Angesicht des entstandenen Schadens und des Mangels an Vorsicht der US-Regierung mit einer Warnung, dass der Trend, Zero-Days zu sammeln, um Sie für digitale Kriegsführung zu nutzen ein gefährliches Unterfangen sei. Es wurde zu Verhandlungen für eine digitale Genfer Konvention aufgerufen und ein Entwurf vorgelegt, der einen groben Plan skizziere, keine Repertoire an Sicherheitlücken anzulegen und Cyberkriegsführung zu regulieren \cite{MS:EB}.
 
 \chapter{Der EternalBlue Exploit}
-Dieses Kapitel beleuchtet die inneren Vorgänge des Server Message Blocks 1.0 und die Fehler, die das erfolgreiche Ausführen eines RCE Angriffs auf Windows Hosts ermöglichen. Die National Vulnerability Database bewertete diese Sicherheitslücke in CVSS Version mit 8.1 von maximal 10 Punkten \cite{NVD} als schwerwiegend. Zweifelsohne aufgrund der sehr hohen Verbeitung der Verwundbarkeit und des Schweregrads eines Hacking-Angriffs. \\
+Dieses Kapitel beleuchtet die inneren Vorgänge des Server Message Blocks 1.0 und die Fehler, die das erfolgreiche Ausführen eines RCE Angriffs auf Windows Hosts ermöglichen. Die National Vulnerability Database bewertete diese Sicherheitslücke in CVSS Version mit 8.1 von maximal 10 Punkten \cite{NVD} als schwerwiegend. Zweifelsohne aufgrund der sehr hohen Verbreitung der Verwundbarkeit und des Schweregrads eines Hacking-Angriffs. \\
 Um den Exploit besser verstehen zu können, müssen vorab einige grundlegende Begriffe erklärt werden, die für die Durchführung einer solchen Hacking Attacke essenziell sind.
 
-\section{Das SMB Protokoll}
-Das im schon mehrere Dekaden alte Protokoll wurde von 1983 von Barry Feigenbaum (IBM) 1983 vorgestellt und fand später erstmals in Windows 95 Verwendung. Das in der damiligen Forrm als CIFS bekannte Protokoll dient seitdem auf jeder Windows Plattform bis heute dem Austausch über Netzwerkressourcen wie Dateien, Verzeichnisse, Drucker und Programmierschnittstellen \cite{CompWeek:SMB}. Spätere Server Message Block Iterationen wurden dann stets mit Versionsnummern versehen. Anfangs baute CIFS Verbindungen über ein weiteres Protokoll namens NetBIOS over TCP auf, das die UDP Ports 137 für Namensauflösung, 138 für Paketübermittlung und TCP-Port 139 für Verbindungsaufbau und Datenübertragung nutzte \cite{MS:NetBIOS}. Dieses wurde allerdings schon ab Windows 2000 von regulären TCP-Verbindungen auf Port 445 und dem DNS-Protokoll abgelöst \cite{IONOS}. Die davor meist als CIFS bezeichnete Urversion der unter Windows implementierten Schnittstelle wird von hier an im Rest der Arbeit als SMBv1 bezeichnet. Weiterhin wird es sich stets um die Version des Protokolls über TCP auf Port 445 handeln.\\
-Trotz der engen Assoziation mit Windows handelt es sich jedoch um ein plattform- und dateiformatunabhängiges Protokoll, das via Samba Shareware auch auf Linux angewendet werden kann\cite{IONOS}. 
+\section{Das SMB Protokoll}\label{sec:SMB}
+Das im schon mehrere Dekaden alte Application-Layer-Netzwerk-Protokoll\cite{Medium} wurde von 1983 von Barry Feigenbaum (IBM) 1983 vorgestellt und fand später erstmals in Windows 95 Verwendung. Das in der damiligen Forrm als CIFS bekannte Protokoll dient seitdem auf jeder Windows Plattform bis heute dem Austausch über Netzwerkressourcen wie Dateien, Verzeichnisse, Drucker und Programmierschnittstellen \cite{CompWeek:SMB}. Spätere Server Message Block Iterationen wurden dann stets mit Versionsnummern versehen. Anfangs baute CIFS Verbindungen über ein weiteres Protokoll namens NetBIOS over TCP auf, das die UDP Ports 137 für Namensauflösung, 138 für Paketübermittlung und TCP-Port 139 für Verbindungsaufbau und Datenübertragung nutzte \cite{MS:NetBIOS}. Dieses wurde allerdings schon ab Windows 2000 von regulären TCP-Verbindungen auf Port 445 und dem DNS-Protokoll abgelöst \cite{IONOS}. Die davor meist als CIFS bezeichnete Urversion der unter Windows implementierten Schnittstelle wird von hier an im Rest der Arbeit als SMBv1 bezeichnet. Weiterhin wird es sich stets um die Version des Protokolls über TCP auf Port 445 handeln.\\
+Trotz der engen Assoziation mit Windows handelt es sich jedoch um ein plattform- und dateiformatunabhängiges Protokoll, das via Samba Shareware auch auf Linux angewendet werden kann\cite{IONOS}.\\
+SMBv1 Packets bestehen aus drei Teilen. Einem Header, einem Parameter- und einem Datenblock.
 
-\section{File Extended Attributes}
-File Extended Attributes sind Datenstrukturen, die erweiterte Metadaten beherbergen, die nicht relevant für das System sind. Darin können zum Beispiel der Autor, das Encoding einer Textdatei oder andere Informationen gespeichert werden \cite{Wiki:FEA}. Solche zusätzlichen Informationen werden im SMBv1 Protokoll in FEA Strukturen gespeichert, die die Form von Key-Value-Paaren annehmen, welche wiederum in Listen abgespeichert werden \cite{CP}. SMB ist ein plattformübergreifendes Protokoll, welches demnach auch für mehrere Dateisysteme besagte Listenstrukturen implementiert haben muss. Darunter fällt auch das OS/2 Betriebssystem, welches in Microsofts Betriebssystemen seit Windows NT integriert ist \cite{MS:OS2Subsys}. Die FEA-Formate und deren Listenstrukturen beider Betriebssysteme sind essenziell für das Gelingen des Exploits. Das SMBv1 Protokoll besitzt ein eigenes Netzwerkdateisystem und ist dadurch plattform- und File-systemunabhängig \cite{CompWeek:SMB}.
+\section{File Extended Attributes}\label{sec:FEA}
+File Extended Attributes sind Datenstrukturen, die erweiterte Metadaten beherbergen, die nicht relevant für das System sind. Darin können zum Beispiel der Autor, das Encoding einer Textdatei oder andere Informationen gespeichert werden \cite{Wiki:FEA}. Solche zusätzlichen Informationen werden im SMBv1 Protokoll in FEA Strukturen gespeichert, die die Form von Key-Value-Paaren annehmen, welche wiederum in Listen abgespeichert werden \cite{CP}. SMB ist ein plattformübergreifendes Protokoll, welches demnach auch für mehrere Dateisysteme besagte Listenstrukturen implementiert haben muss \cite{CompWeek:SMB}. Darunter fallen auch Microsofts WindowsNT und IBMs OS/2 Betriebssystem, welches seit Windows NT in allen weitern Windowsversionen als Subsystem integriert ist \cite{MS:OS2Subsys}. Die FEA-Formate und deren Listenstrukturen für beide Betriebssysteme sind essenziell für das Gelingen des Exploits.
 
-\section{Der non paged Pool}
-Zur Verwaltung des Arbeitsspeicherressourcen besitzt Windows einen Memory Manager. Dieser hat als Aufgabe, für Prozesse und deren Verwaltung Arbeitsspeicher zu reservieren und wieder danach wieder frei zu geben \cite{Medium:ExpBible}. Der Memory Manager schöpft bei dieser Verwaltung Speicherbereiche aus dem für das System reservierten Arbeitsspeicher, der bereits für den virtuellen Adressraum gemappt wurde. Unterteilt wird hierbei in zwei sogenannte Memory Pools, in denen Memoryblöcke allokiert werden: Den paged und den non-paged Memory Pool \cite{MS:MemPools}. Die zusätzliche Abstraktionschicht des Mappens von virtuellen auf physikalische Speicheradressen ermöglicht unter anderem dieses Paging. Als Paging bezeichnet man hierbei das Ein- und Auslagern von Arbeitsspeicherblöcken ins Dateisystem, um in Ausnahmefällen mehr Speicher zur Verfügung zu haben als physikalisch verbaut \cite{CompWeek:Paging}.\\
-Der non-paged Memory Pool ist für den EternalBlue Exploit relevant, da in ihm durch mehrere Bugs im SMB-Protokoll Speicherbereiche reserviert, frei gegeben und gelesen werden, die zum Platzieren und Laden des Schadcodes dienen.
+\section{Non-paged Memory Pool und HAL}\label{sec:mempool}
+Zur Verwaltung des Arbeitsspeicherressourcen besitzt Windows einen Memory Manager. Dieser hat als Aufgabe, für Prozesse und deren Verwaltung Arbeitsspeicher zu reservieren und wieder danach wieder frei zu geben \cite{Medium:ExpBible}. Der Memory Manager schöpft bei dieser Verwaltung Speicherbereiche aus dem für das System reservierten Arbeitsspeicher, der bereits für den virtuellen Adressraum gemappt wurde. Unterteilt wird hierbei in zwei sogenannte Memory Pools, in denen Memoryblöcke allokiert werden: Den paged und den non-paged Memory Pool \cite{MS:MemPools}. Die zusätzliche Abstraktionschicht des Mappens von virtuellen auf physikalische Speicheradressen ermöglicht unter anderem dieses Paging. Als Paging bezeichnet man hierbei das Ein- und Auslagern von Arbeitsspeicherblöcken ins Dateisystem, um in Ausnahmefällen mehr Speicher zur Verfügung zu haben als physikalisch verbaut \cite{CompWeek:Paging}. Beim non-paged Pool, der besonders bei Treibern Gebrauch findet, ist dies nicht der Fall. Im non-paged Memory Pool finden deshalb die meisten Speichermanipulationen statt, da in ihm durch die beiden Treiber svr.sys und srvnet.sys Speicherbereiche reserviert, frei gegeben und gelesen werden, die zum Platzieren und Laden des Schadcodes dienen\cite{SS:Eternal}.
 
-\section{Der IPC\$ Share}
+\section{Der IPC Share}\label{sec:IPC}
 Um ohne entsprechende Credentials eine Verbindung zum integrierten SMBv1 Server einer Windows Maschine zu aufzubauen, ist ein Inter Process Communication Share nötig. Auch als Null-Session bekannt, erlauben sie das anonyme Anmelden ohne Username oder Passwort, sowie beschränkten Zugriff auf Serverfunktionen wie zum Beispiel das Erstellen von Named Pipes \cite{MS:IPC}. Durch das Verwenden solcher benannten Pipes kann über Netzwerk und mehrere Instanzen hinweg vollduplex kommuniziert werden, der Client seine Identität wechseln und Prozesse können ihre eigenen Berechtigungen verwalten \cite{MS:NP}. Das Aufbauen einer SMB Session erfolgt über eine durch den IPC\$ Share ermöglichte anonyme Anmeldung und eine solche Named Pipe.
 
-\section{Grooming}
-Durch die Technik des Heap Grooming kann dafür gesorgt werden, dass zwei kontrollierbare Speicherblöcke mit hoher Wahrscheinlichkeit nebeneinander allokiert werden. Das gilt als Voraussetzung für das Platzieren von Schadcode, der durch einen Buffer overflow in einem vorhergehenden Speicherbereich ausgelöst werden kann.\cite{ARC}.
+
+%\section{Grooming}
+%Durch die Technik des Heap Grooming kann dafür gesorgt werden, dass zwei kontrollierbare Speicherblöcke mit %hoher Wahrscheinlichkeit nebeneinander allokiert werden. Das gilt als Voraussetzung für das Platzieren von %Schadcode, der durch einen Buffer overflow in einem vorhergehenden Speicherbereich ausgelöst werden kann. \cite%{ARC}.
 
 \chapter{Der Exploit}
-Der Exploit nutzt mehrere Fehler im SMBv1 Netzwerkprotokoll aus, wodurch Remote Code Execution auf verwundbaren Windows Maschinen ermöglicht wird.\\ Hierfür werden SMB Instruktionen zusammengestellt, die den Arbeitsspeicher geschickt so manipulieren, dass mehrere Fehler im Protokoll zusammenspielen, um eine Payload zu platzieren und sie zu triggern\cite{Medium}. Bei der gesamten Exploit Speichermanipulation kommt der HAL Heap zum Einsatz. Dies hat zum Vorteil, dass unter vielen Windows-Arten der Speicheradressbereich bekannt ist \cite{GH:FEA}. Besonders wichtig und komplex ist der erste in einer Reihe von Bugs, der für den Zweck dieser Studienarbeit besonders unter die Lupe genommen wird.
+Der Exploit nutzt mehrere Fehler im SMBv1 Netzwerkprotokoll aus, wodurch Remote Code Execution auf verwundbaren Windows Maschinen ermöglicht wird.\\ Hierfür werden SMB Instruktionen zusammengestellt, die den Arbeitsspeicher geschickt so manipulieren, dass mehrere Fehler im Protokoll zusammenspielen, um Schadcode zu platzieren und ihn durch speicherübergreifende Zugriffe zu triggern\cite{Medium}. Bei der Exploit Speichermanipulation kommt auch der HAL Heap zum Einsatz. Dies hat zum Vorteil, dass unter vielen Windows-Arten der Speicheradressbereich bekannt ist \cite{GH:FEA}. Besonders wichtig und komplex ist der erste in einer Reihe von Bugs, der für den Zweck dieser Studienarbeit besonders unter die Lupe genommen wird.
 
 \section{Fehler beim Casten einer FEA Liste}
-Da einer der Hauptzwecke des SMB Protokolls der Austausch von Dateien ist, müssen auch die mit den Files assoziierten Metadaten korrekt zwischen File- und Betriebssystemen gecastet werden können. Diese FEAs werden in Listenstrukturen innerhalb des Protokolls festgehalten und beim Handling von Dateien je nach Bedarf von einem ins andere Format konvertiert. Hierbei wurde ein Bug entdeckt, der beim Casten einer OS/2 FEA Liste in eine WindowsNT FEA Liste entsteht \cite{TM:EB}.
-Die relevanten FEA Strukturen und Listen entsprechen dem folgendem Code:
+Da einer der Hauptzwecke des SMB Protokolls der Austausch von Dateien ist, müssen auch die mit den Files assoziierten Metadaten korrekt zwischen File- und Betriebssystemen gecastet werden können. Diese FEAs werden in Listenstrukturen innerhalb des Protokolls festgehalten und beim Handling von Dateien je nach Bedarf von einem ins andere Format konvertiert. Hierbei wurde ein Bug entdeckt, der beim Casten einer OS/2 FEA Liste in eine WindowsNT FEA Liste entsteht \cite{TM:EB}. Die relevanten FEA Strukturen und Listen entsprechen dem folgendem Code:\\
 
-\begin{lstlisting}[language=C,caption={Die zwei relevanten FEAs und exemplarisch die NTFEA-Liste},captionpos=b]
+\begin{lstlisting}[language=C,caption={Die zwei relevanten FEAs und exemplarisch die NTFEA-Liste\cite{CP}},captionpos=b]
 /**
  * Single OS/2 Fea Entry
  */
@@ -282,13 +280,13 @@ Dabei wird die 32 Bit (DWORD) große Variable, die die ursprüngliche Listenlän
 Für die Übertragung von Daten kommen zwei SMB Commands und deren Subcommands zum Einsatz, die für die Übertragung von Daten verantwortlich sind: \verb|SMB_COM_TRANSACTION2| und \verb|SMB_COM_NT_TRANSACT|. Durch Anhängen von \verb|_SECOND| kann jeweils der sekundäre Befehl gebildet werden \cite{MS:SMBCom}. Ist die in der Variable \verb|total_data_to_send| zu übertragende Datenmenge größer als die maximale Buffergröße, so werden die im primären Befehl noch ausstehenden Daten aufgeteilt und nach dem initialen Paket mittels des mit \verb|_SECONDARY|  gebildeten Commands versendet, bis die zu übermittelnde Datenmenge vollständig sind\cite{TM:EB}.
 
 \noindent
-Die zwei Befehle samt deren Subcommands unterscheiden sich nur gering, aber in einem für den Exploit essentiellen Punkt signifikant, was für den erfolgreichen Hack von Bedeutung ist. Während \verb|SMB_COM_TRANSACTION2| die Bytegröße der zu sendenden Daten in einem Header Parameter in WORD-Größe abspeichert, nutzt \verb|SMB_COM_NT_TRANSACTION| hierfür einen in DWORD-Größe. Das heißt, das sehr große Parameterdaten gesendet werden können \cite{CP}.
+Die zwei Befehle samt deren Subhtz678commands unterscheiden sich nur gering, aber in einem für den Exploit essentiellen Punkt signifikant, was für den erfolgreichen Hack von Bedeutung ist. Während \verb|SMB_COM_TRANSACTION2| die Bytegröße der zu sendenden Daten in einem Header Parameter in WORD-Größe abspeichert, nutzt \verb|SMB_COM_NT_TRANSACTION| hierfür einen in DWORD-Größe. Das heißt, dass sehr große Parameterdaten gesendet werden können \cite{CP}.
 
 \noindent
-Ein weiterer wichtiger Faktor ist auch, dass nicht geprüft wird, mit welchem der beiden Befehle eine Transaktion gestartet wurde. Dieser Unterschied in der maximal adressierbaren Datenmenge der Transaktionsbefehlstypen und der Mangel an Validierung, ob der Transaktionsbefehl gleich bleibt, lassen sich für einen Angreifer ausnutzen, indem auf \verb|SMB_COM_NT_TRANSACT_SECONDARY| ein \verb|SMB_COM_TRANSACTION2| gesendet wird. Das wiederum kann zum Auslesen der falschen Daten führen und ermöglicht somit fehlerhaftes Parsen durch Behandeln des WORD-großen Header Parameters in \verb|_TRANSACTION2| als DWORD, was die FEAs malformed und somit ungültig werden lässt\cite{CP}.
+Ein weiterer wichtiger Faktor ist auch, dass nicht geprüft wird, mit welchem der beiden Befehle eine Transaktion gestartet wurde. Dieser Unterschied in der maximal adressierbaren Datenmenge der Transaktionsbefehlstypen und der Mangel an Validierung, ob der Transaktionsbefehl gleich bleibt, lassen sich für einen Angreifer ausnutzen, indem auf \verb|SMB_COM_NT_TRANSACT_SECONDARY| ein \verb|SMB_COM_TRANSACTION2| gesendet wird. Das wiederum führt zum Auslesen der falschen Daten und ermöglicht somit fehlerhaftes Parsen durch Behandeln des WORD-großen Header Parameters in \verb|_TRANSACTION2| als DWORD, was die FEAs malformed und somit ungültig werden lässt\cite{CP}.
 
 \section{Beliebige Allokation von Speicher im Non-Paged Memory Pool}
-Um eine Session beim Server über Port 445 aufbauen zu können, wird ein Authentifikationsrequest über die Funktion \verb|SMB_COM_SESSION_SETUP_ANDX| gesendet, was über IPC\$ einen anonymen User Logon beim Server etabliert und eine UID kreiert, mit der fortgefahren wird \cite{MS:Auth}. Auch beim Anmelden gibt es wieder zwei unterschiedliche Formate, namentlich LM/NTLM und NTLMv2, auch bekannt als NTLM SSP. Diese besitzen bei eine ähnliche zweiteilige Struktur, welche aus zwei Blöcken, \verb|SMB_Parameters| und \verb|SMB_Data|, besteht \cite{MS:SMBCom}.
+Um eine Session beim Server über Port 445 aufbauen zu können, wird ein Authentifikationsrequest über die Funktion \verb|SMB_COM_SESSION_SETUP_ANDX| gesendet, was über IPC\$ einen anonymen User Logon beim Server etabliert und eine UID kreiert \cite{MS:Auth}. Diese UID wird bei jeder Transaktion mit im SMB Header gesendet und ermöglicht das Zuordnen der Datenpakte\cite{SS:Eternal}. Auch beim Anmelden gibt es wieder zwei unterschiedliche Formate, namentlich LM/NTLM und NTLMv2, auch bekannt als NTLM SSP. Diese besitzen bei eine ähnliche zweiteilige Struktur, welche aus zwei Blöcken, \verb|SMB_Parameters| und \verb|SMB_Data|, besteht \cite{MS:SMBCom}.
 
 \noindent
 \begin{minipage}{.45\textwidth}
@@ -356,26 +354,26 @@ SMB_DATA
 \end{lstlisting}
 \end{minipage}
 \hfill
-\verb|SMB_Parameters| speichert in sich mehrere Parameter, die jeweils maximal vier Bytes an Speicher einnehmen können. Auch ist hier die Variable WordCount zu finden, welche die Länge der \verb|SMB_Parameters| Daten in WORDs angibt. Anhand von WordCount kann auch der Typ des Requests erkannt werden, da dieser bei LM und NTLM stets 13 und bei NTLMv2 12 beträgt.
+\verb|SMB_Parameters| speichert in sich mehrere Parameter, die jeweils maximal vier Bytes an Speicher einnehmen können. Die Variable WordCount ist hier auch zu finden. Sie gibt die Länge der \verb|SMB_Parameters| Daten in WORDs an. Abhängig von Typ des Requests unterscheided sich auch deren Länge. Bei LM und NTLM beträgt diese stets 13 während die von NTLMv2 12 beträgt.
 Der zweite Teil beider Formate, \verb|SMB_Data|, beinhaltet Daten in unterschiedlicher Größe, wobei eine Variable namens ByteCount den benötigten Speicherplatz festhält\cite{CP}.
 %In beiden Fällen führt der Server einen Integritätscheck mit einer Funktion namens SrvValidateSmb aus, um zu überprüfen, ob die Struktur eingehalten und unbeschädigt ist.
-Wird ein Authentifikationsrequest als NTLMv2 ohne die Flag für ''Extended Security'' gesendet, wird folglich der Request fälschlicherweise als NTLM Request behandelt und in der Funktion, die den benötigten Speicherplatz berechnet, nicht den ByteCount für die Daten, sondern die NativeOS und NativeLanMan Unicode strings verwendet. Somit ist durch präparieren dieser Werte beliebig viel Speicher beim Verbindungsaufbau durch ein entsprechend manipuliertes Authentifikationsrequest allokierbar \cite{CP}. Durch Anwenden von gezieltem Heap Spraying\cite{ARC} und Ausnutzen der festen Adressen im HAL durch unterschiedliche Methoden können Arbeitsspeicherblöcke so gelegt werden, dass durch die Out-Of-Bounds Speicherzugriffe Schadcode in den HAL gelegt wird, der nach Schließen der SRVNET Verbindung aufgerufen wird\cite{CP}.
+Wird ein Authentifikationsrequest als NTLMv2 ohne die Flag für ''Extended Security'' gesendet, wird folglich der Request fälschlicherweise als NTLM Request behandelt und in der Funktion, die den benötigten Speicherplatz berechnet, nicht den ByteCount für die Daten, sondern die NativeOS und NativeLanMan Unicode strings verwendet. Somit ist durch präparieren dieser Werte beliebig viel Speicher beim Verbindungsaufbau durch ein entsprechend manipuliertes Authentifikationsrequest allokierbar \cite{CP}. Durch Anwenden von gezieltem Heap Spraying\cite{ARC} und Ausnutzen der festen Adressen im HAL können durch je nach Skript unterschiedliche Methoden Arbeitsspeicherblöcke so gelegt werden, dass durch die Out-Of-Bounds Speicherzugriffe Schadcode in den HAL gelegt wird, der nach Schließen der SRVNET Verbindung aufgerufen wird\cite{CP}.
 
 
 \chapter{Prävention und Schutz}
 Wie bei den meisten anderen Softwareprobleme empfielt sich, regelmäßig Updates aufzuspielen, um Sicherheitslücken durch Patches zu schließen. Das Update, das Hacking mittels des EternalBlue Exploits verhindert, ist seit März 2017 für alle relevanten Windows Produkte verfügbar.
-Da der Exploit eine ganze Kette an Bugs benötigt, die zusammen arbeiten, um einen erfolgreichen Hack durchzuführen, reichte es aus, dass der Typ von SizeOfListInBytes zu DWORD geändert wurde \cite{Scad:EB}.
-Um zu überprüfen, ob eine Maschine die Sicherheitslücke noch aufweist, hat die Firma Sophos ein Powershell-Skript bereit gestellt, welches auf Windowsversion, Betriebssystem und Updates prüft \cite{SAV}.
+Da der Exploit eine ganze Kette an Bugs benötigt, die zusammen arbeiten, um einen erfolgreichen Hack durchzuführen, reichte es aus, dass der Typ von SizeOfListInBytes zu DWORD geändert wurde\cite{Scad:EB}, da hierdurch beim Reduzieren der Listengröße alle stellen der Zahl geupdated werden.
+Um zu überprüfen, ob eine Maschine die Sicherheitslücke noch aufweist, hat die Firma Sophos ein Powershell-Skript bereit gestellt, welches auf Windowsversion, Betriebssystem und Updates prüft, um anschließend die Verwundbarkeit auszuwerten\cite{SAV}. 
 Neuere Windows 10 und Windows Server Installationen werden ab dem Fall Creators Update 2017 auch nicht mehr standardmäßig die seit 2014 offiziell als veraltet geltende SMBv1 Schnittstelle installiert haben. Sollte das Protokoll für Legacy Geräte noch benötigt werden, kann es aber jederzeit über die Windows-Features wieder installiert werden \cite{MS:Fix}.
-Da das SMBv1-Protokoll als relativ unsicher gilt und hauptsächlich für die Unterstützung alter Systeme benötigt wird, kann es auf den meisten Rechnern ohne negative Folgen deaktiviert bzw. deinstalliert werden \cite{WP}. Das kann zum Beispiel unter Windows 10 über die Funktion "Windows-Features" der Systemsteuerung gemacht werden.
+Da das SMBv1-Protokoll als relativ unsicher gilt und hauptsächlich für die Unterstützung alter Systeme benötigt wird, kann es auf den meisten Rechnern ohne negative Folgen deaktiviert bzw. deinstalliert werden \cite{WP}, da die neueren, üblicherweise bei der Installation schon akivierten SMB Versionen  seit einiger Zeit der neue Standard sind und mehr Funktionen aufweisen. Das kann zum Beispiel unter Windows 10 über die Funktion "Windows-Features" der Systemsteuerung gemacht werden.
 Im Allgemeinen wird Systemadministratoren in großen Netzwerken auch geraten, unbenutzte Ports stets geschlossen zu halten, obsolete und oder ungenutzte Protokolle zu deaktivieren.\cite{TM:EB}
 
 \chapter{Fazit}
 Wieder einmal zeigt ein Exploit auf, wie gefährlich in die Jahre gekommener Legacy Code auch für moderne Systeme sein kann. Besonders in einer Zeit, in der Regierungen solche Sicherheitslücken gezielt suchen und sammeln, um eine Art Rüstungskrieg mit dem Rest der Welt zu führen.
-Der entstandene Schaden in Milliardenhöhe sollte vielen Entwicklern, besonders im Bereich der Netzwerktechnik, ein Ansporn sein, sauberen Code zu schreiben und diesen auch auf so absurde Kombinationen wie 64kB große oder falsch geflaggte Requests zu testen. Dass der falsche Umgang mit einer Zahl in knapp 30 Jahre altem kaum noch genutzem Code ein so verheerendes Chaos anrichten kann, lässt erahnen, welche gravierenden Sicherheitlücken in Zukunft noch entdeckt oder bereits unter strenger Geheimhaltung ausgenutzt werden. Doch für's erste scheint durch Bemühungen Microsofts der Gefahrenherd, den das SMBv1 Protokoll darstellt, Geschichte zu sein.
+Der entstandene Schaden in Milliardenhöhe sollte vielen Entwicklern, besonders im Bereich der Netzwerkprotokolle, ein Ansporn sein, sauberen Code zu schreiben und diesen auch auf so obskure Kombinationen wie enorme über 64kB große Pakete oder falsch geflaggte Requests zu testen. Dass der falsche Umgang mit einer Zahl in knapp 30 Jahre altem kaum noch genutzem Code ein so verheerendes Chaos anrichten kann, lässt erahnen, welche gravierenden Sicherheitlücken, so unscheinbar sie auch sein mögen, in Zukunft noch entdeckt oder bereits unter strenger Geheimhaltung ausgenutzt werden. Für's erste jedoch scheint durch Bemühungen Microsofts und vieler Systemadministratoren der Gefahrenherd, den das SMBv1 Protokoll darstellt, Geschichte zu sein.
 
 \clearpage
-\label{sec:literatur}
+\label{sec:sources}
 \renewcommand{\bibname}{Quellenverzeichnis}
 \bibliographystyle{unsrtdin}
 \bibliography{itsec}
