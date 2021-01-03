@@ -86,9 +86,7 @@ aufgrund der dort integrierten SMBv1 Schnittstelle eine Bedrohung dar. Es wird n
 
 \tableofcontents
 
-%\begin{sloppypar}
 \listoffigures
-%\end{sloppypar}
 
 \chapter*{Abkürzungsverzeichnis}
 
@@ -290,9 +288,11 @@ Um eine Session beim Server über Port 445 aufbauen zu können, wird ein Authent
 
 \noindent
 \begin{minipage}{.45\textwidth}
-\begin{lstlisting}[language=C,caption={NTLMv1 Auth Request},captionpos=b]
+\begin{lstlisting}[language=C,caption={LM/NTLM Auth Request},captionpos=b]
 SMB_Parameters
 {
+  //For this type of request
+  //WordCount = 13
   UCHAR WordCount;
   Words
   {
@@ -327,6 +327,8 @@ SMB_DATA
 \begin{lstlisting}[language=C,caption={NTLMv2 Auth Request},captionpos=b]
 SMB_Parameters
 {
+  //for this type of request
+  //WordCount = 12
   UCHAR WordCount;
   Words
   {
@@ -357,7 +359,7 @@ SMB_DATA
 \verb|SMB_Parameters| speichert in sich mehrere Parameter, die jeweils maximal vier Bytes an Speicher einnehmen können. Die Variable WordCount ist hier auch zu finden. Sie gibt die Länge der \verb|SMB_Parameters| Daten in WORDs an. Abhängig von Typ des Requests unterscheided sich auch deren Länge. Bei LM und NTLM beträgt diese stets 13 während die von NTLMv2 12 beträgt.
 Der zweite Teil beider Formate, \verb|SMB_Data|, beinhaltet Daten in unterschiedlicher Größe, wobei eine Variable namens ByteCount den benötigten Speicherplatz festhält\cite{CP}.
 %In beiden Fällen führt der Server einen Integritätscheck mit einer Funktion namens SrvValidateSmb aus, um zu überprüfen, ob die Struktur eingehalten und unbeschädigt ist.
-Wird ein Authentifikationsrequest als NTLMv2 ohne die Flag für ''Extended Security'' gesendet, wird folglich der Request fälschlicherweise als NTLM Request behandelt und in der Funktion, die den benötigten Speicherplatz berechnet, nicht den ByteCount für die Daten, sondern die NativeOS und NativeLanMan Unicode strings verwendet. Somit ist durch präparieren dieser Werte beliebig viel Speicher beim Verbindungsaufbau durch ein entsprechend manipuliertes Authentifikationsrequest allokierbar \cite{CP}. Durch Anwenden von gezieltem Heap Spraying\cite{ARC} und Ausnutzen der festen Adressen im HAL können durch je nach Skript unterschiedliche Methoden Arbeitsspeicherblöcke so gelegt werden, dass durch die Out-Of-Bounds Speicherzugriffe Schadcode in den HAL gelegt wird, der nach Schließen der SRVNET Verbindung aufgerufen wird\cite{CP}.
+Wird ein Authentifikationsrequest als NTLMv2 ohne die Flag für ''Extended Security'' gesendet, wird folglich der Request fälschlicherweise als NTLM Request behandelt und in der Funktion, die den benötigten Speicherplatz berechnet, nicht den ByteCount für die Daten, sondern die NativeOS und NativeLanMan Unicode strings verwendet. Somit ist durch Präparieren dieser Werte beliebig viel Speicher beim Verbindungsaufbau durch ein entsprechend manipuliertes Authentifikationsrequest allokierbar \cite{CP}. Durch Anwenden von gezieltem Heap Spraying\cite{ARC} und Ausnutzen der festen Adressen im HAL können durch je nach Skript unterschiedliche Methoden Arbeitsspeicherblöcke so gelegt werden, dass durch die Out-Of-Bounds Speicherzugriffe Schadcode in den HAL gelegt wird, der nach Schließen der SRVNET Verbindung aufgerufen wird\cite{CP}.
 
 
 \chapter{Prävention und Schutz}
