@@ -175,7 +175,7 @@ Wie sich nach Analyse der Malware heruasstellte besaß keiner der beiden Viren, 
 \noindent
 Microsoft reagiere im Angesicht des entstandenen Schadens und des Mangels an Vorsicht der US-Regierung mit einer Warnung, dass der Trend, Zero-Days zu sammeln, um Sie für digitale Kriegsführung zu nutzen ein gefährliches Unterfangen sei. Es wurde zu Verhandlungen für eine digitale Genfer Konvention aufgerufen und ein Entwurf vorgelegt, der einen groben Plan skizziere, keine Repertoire an Sicherheitlücken anzulegen und Cyberkriegsführung zu regulieren \cite{MS:EB}.
 
-\chapter{Der EternalBlue Exploit}
+\chapter{Grundlagen}
 Dieses Kapitel beleuchtet die inneren Vorgänge des Server Message Blocks 1.0 und die Fehler, die das erfolgreiche Ausführen eines RCE Angriffs auf Windows Hosts ermöglichen. Die National Vulnerability Database bewertete diese Sicherheitslücke in CVSS Version mit 8.1 von maximal 10 Punkten \cite{NVD} als schwerwiegend. Zweifelsohne aufgrund der sehr hohen Verbreitung der Verwundbarkeit und des Schweregrads eines Hacking-Angriffs. \\
 Um den Exploit besser verstehen zu können, müssen vorab einige grundlegende Begriffe erklärt werden, die für die Durchführung einer solchen Hacking Attacke essenziell sind.
 
@@ -198,7 +198,7 @@ Um ohne entsprechende Credentials eine Verbindung zum integrierten SMBv1 Server 
 Durch die Technik des Heap Grooming kann dafür gesorgt werden, dass zwei kontrollierbare Speicherblöcke mit hoher Wahrscheinlichkeit nebeneinander allokiert werden. Das gilt bei EternalBlue als Voraussetzung für den Speicherzugriff auf anliegende Chunks durch einen Overflow in einem vorhergehenden Speicherbereich. Es gibt mehrere Methoden, das für EternalBlue umzusetzen. Zum Beispiel kann durch das Öffnen mehrerer großer simulatener Transaktionen mit dem Server ein ganzer zusammenhängender Speicherbereich reserviert werden, sofern die finalen der Transaktion zugehörigen Packages  noch nicht gesendet wurden\cite{}. Lücken können durch Senden des letzten Packages und somit dem Schließen Transaktion, was den Speicher wieder deallokiert, ermöglicht werden. Somit wird neu allokierter Speicher mit hoher Wahrscheinlichkeit zwischen die bereist bestehenden Blöcke allokiert.\\ Zusätzlich kann der verfügbare Speicher durch die unter Punkt \ref{sec:MemAlloc} beschriebene Methode verkleinert werden, indem vor den Transaktionen große Bereiche belegt werden.
 
 
-\chapter{Der Exploit}
+\chapter{Der EternalBlue Exploit}
 Der Exploit nutzt mehrere Fehler im SMBv1 Netzwerkprotokoll aus, wodurch Remote Code Execution auf verwundbaren Windows Maschinen ermöglicht wird.\\ Hierfür werden SMB Instruktionen zusammengestellt, die den Arbeitsspeicher geschickt so manipulieren, dass mehrere Fehler im Protokoll zusammenspielen, um Schadcode zu platzieren und ihn durch speicherübergreifende Zugriffe zu triggern\cite{Medium}. Bei der Exploit Speichermanipulation kommt auch der HAL Heap zum Einsatz. Dies hat zum Vorteil, dass unter vielen Windows-Arten der Speicheradressbereich bekannt ist \cite{GH:FEA}. Besonders wichtig und komplex ist der erste in einer Reihe von Bugs, der für den Zweck dieser Studienarbeit unter die Lupe genommen wird.
 
 \section{Fehler beim Casten einer FEA Liste}\label{sec:FEA_Cast}
@@ -367,7 +367,7 @@ Eine von einer Anzahl an Möglichkeiten, die oben beschriebenen Methoden auszunu
 
 
 \chapter{Prävention und Schutz}
-Wie bei den meisten anderen Softwareprobleme empfielt sich, regelmäßig Updates aufzuspielen, um Sicherheitslücken durch Patches zu schließen. Das Update, das Hacking mittels des EternalBlue Exploits verhindert, ist seit März 2017 für alle relevanten Windows Produkte verfügbar.
+Wie bei den meisten anderen Softwareproblemen empfielt sich, regelmäßig Updates aufzuspielen, um Sicherheitslücken durch Patches zu schließen. Das Update, das Hacking mittels des EternalBlue Exploits verhindert, ist seit März 2017 für alle relevanten Windows Produkte verfügbar.
 Da der Exploit eine ganze Kette an Bugs benötigt, die zusammen arbeiten, um einen erfolgreichen Hack durchzuführen, reichte es aus, dass der Typ von SizeOfListInBytes zu DWORD geändert wurde\cite{Scad:EB}, da hierdurch beim Reduzieren der Listengröße alle stellen der Zahl geupdated werden.
 Um zu überprüfen, ob eine Maschine die Sicherheitslücke noch aufweist, hat die Firma Sophos ein Powershell-Skript bereit gestellt, welches auf Windowsversion, Betriebssystem und Updates prüft, um anschließend die Verwundbarkeit auszuwerten\cite{SAV}.\\
 Neuere Windows 10 und Windows Server Installationen werden ab dem Fall Creators Update 2017 auch nicht mehr standardmäßig die seit 2014 offiziell als veraltet geltende SMBv1 Schnittstelle installiert haben. Sollte das Protokoll für Legacy Geräte noch benötigt werden, kann es aber jederzeit über die Windows-Features wieder installiert werden \cite{MS:Fix}.\\
