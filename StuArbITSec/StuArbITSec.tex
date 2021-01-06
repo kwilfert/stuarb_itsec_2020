@@ -149,7 +149,7 @@ Da Microsofts Implementierung des SMB Protokolls deren geistiges Eigentum ist, m
 \chapter{EternalBlue Malware}
 In vielerlei Hinsicht ist die Entstehungsgeschichte des EternalBlue Exploits eng mit der US-amerikanischen National Security Agency verbunden. Eine Unterabteilung der Agency, zum damaligen Zeitpunkt als ''Tailored Access Operations'' bekannt \cite{CS}, untersuchte über ein Jahr lang das Windows Betriebssystem auf Schwächen, die der Agency beim Zugriff auf fremde Systeme helfen könnten\cite{WP}. Letzten Endes wurden mehrere Sicherheitslücken im SMB Protokoll der Windows Plattform gefunden, die es ermöglichten, mittels eines speziell angefertigten Paketes einen Rechner zu kapern und auf ihm beliebigen Code auszuführen \cite{Avast}.
 Eigens für die Sicherheitslücke, die später als CVE-2017-0144 veröffentlicht wurde, programmierte die Agency das Hacking-Tool EternalBlue, so benannt nach der Tendenz, die angegriffenen Rechner zu crashen, was einen Bluescreen als Folge hatte. Das Hacking Tool zählte intern zur NOBUS-Gruppe (Nobody but us), da eine solche Sicherheitslücke aufgrund der enormen Konsequenzen nie an die Öffentlichkeit gelangen sollte \cite{CS}. Dieses Vorgehen, Zero-Day-Exploits zu sammeln und zu Waffen umzufunktionieren sorgte schon damals in einigen NSA Officials für Unbehagen, was, wie sich herausstellte, eine berechtigte Kritik war \cite{WP}.
-Jedoch kam es genau zu einem solchen Ernstfall, als die Hackergruppe der 'Shadow Brokers' im August 2016 die gesamte Familie der SMB-Schwachstellen zusammen mit dem Hacking Tool in einem Leak, der als "Lost in Translation" bezeichnet wurde \cite{Medium:ExpBible}, veröffentlichte. Somit waren auch Amateure fähig, die Lücke zu nutzen, um Schaden anzurichten. Die NSA reagierte zunächst lediglich mit einer Benachrichtigung an Microsoft aber klärte die Öffentlichkeit nicht bezüglich der enormen Gefahr, die von dem Leak ausging, auf \cite{WP}.
+Jedoch kam es genau zu einem solchen Ernstfall, als die Hackergruppe der ''Shadow Brokers'' im August 2016 die gesamte Familie der SMB-Schwachstellen zusammen mit dem Hacking Tool in einem Leak, der als ''Lost in Translation'' bezeichnet wurde \cite{Medium:ExpBible}, veröffentlichte. Somit waren auch Amateure fähig, die Lücke zu nutzen, um Schaden anzurichten. Die NSA reagierte zunächst lediglich mit einer Benachrichtigung an Microsoft aber klärte die Öffentlichkeit nicht bezüglich der enormen Gefahr, die von dem Leak ausging, auf \cite{WP}.
 
 \begin{figure}[H]
     \centering
@@ -176,7 +176,7 @@ Wie sich nach Analyse der Malware heruasstellte besaß keiner der beiden Viren, 
 Microsoft reagiere im Angesicht des entstandenen Schadens und des Mangels an Vorsicht der US-Regierung mit einer Warnung, dass der Trend, Zero-Days zu sammeln, um Sie für digitale Kriegsführung zu nutzen ein gefährliches Unterfangen sei. Es wurde zu Verhandlungen für eine digitale Genfer Konvention aufgerufen und ein Entwurf vorgelegt, der einen groben Plan skizziere, keine Repertoire an Sicherheitlücken anzulegen und Cyberkriegsführung zu regulieren \cite{MS:EB}.
 
 \chapter{Grundlagen}
-Dieses Kapitel beleuchtet die inneren Vorgänge des Server Message Blocks 1.0 und die Fehler, die das erfolgreiche Ausführen eines RCE Angriffs auf Windows Hosts ermöglichen. Die National Vulnerability Database bewertete diese Sicherheitslücke in CVSS Version mit 8.1 von maximal 10 Punkten \cite{NVD} als schwerwiegend. Zweifelsohne aufgrund der sehr hohen Verbreitung der Verwundbarkeit und des Schweregrads eines Hacking-Angriffs. \\
+Dieses Kapitel beleuchtet die inneren Vorgänge des Server Message Blocks 1.0 und die Fehler, die das erfolgreiche Ausführen eines RCE Angriffs auf Windows Hosts ermöglichen. Die National Vulnerability Database bewertete diese Sicherheitslücke in CVSS Version mit 8.1 von maximal zehn Punkten \cite{NVD} als schwerwiegend. Zweifelsohne aufgrund der sehr hohen Verbreitung der Verwundbarkeit und des Schweregrads eines Hacking-Angriffs. \\
 Um den Exploit besser verstehen zu können, müssen vorab einige grundlegende Begriffe erklärt werden, die für die Durchführung einer solchen Hacking Attacke essenziell sind.
 
 \section{Das SMB Protokoll}\label{sec:SMB}
@@ -276,20 +276,20 @@ Dabei wird die 32 Bit (DWORD) große Variable, die die ursprüngliche Listenlän
 \end{figure}
 
 \section{Falsches Parsen des SMB Datensegments}\label{sec:Wrong_Parse}
-Für die Übertragung von Daten kommen zwei SMB Commands und deren Subcommands zum Einsatz, die für die Übertragung von Daten verantwortlich sind: \verb|SMB_COM_TRANSACTION2| und \verb|SMB_COM_NT_TRANSACT|. Durch Anhängen von \verb|_SECOND| kann jeweils der sekundäre Befehl gebildet werden \cite{MS:SMBCom}. Ist die in der Variable \verb|total_data_to_send| zu übertragende Datenmenge größer als die maximale Buffergröße, so werden die im primären Befehl noch ausstehenden Daten aufgeteilt und nach dem initialen Paket mittels des mit \verb|_SECONDARY|  gebildeten Commands versendet, bis die zu übermittelnde Datenmenge vollständig sind\cite{TM:EB}.
+Für die Übertragung von Daten kommen zwei SMB Commands und deren Subcommands zum Einsatz, die für die Übertragung von Daten verantwortlich sind: \verb|SMB_COM_TRANSACTION2| und \verb|SMB_COM_NT_TRANSACT|. Durch Anhängen von \verb|_SECOND| kann jeweils der sekundäre Befehl gebildet werden \cite{MS:SMBCom}. Ist die in der Variable \verb|total_data_to_send| zu übertragende Datenmenge größer als die maximale in einem Paket sendbarew Größe, so werden die im primären Befehl noch ausstehenden Daten aufgeteilt und nach dem initialen Paket mittels des mit \verb|_SECONDARY| gebildeten Commands versendet, bis die zu übermittelnde Datenmenge vollständig sind\cite{TM:EB}.
 
 \noindent
-Die zwei Befehle samt deren Subcommands unterscheiden sich nur gering, aber in einem für den Exploit essentiellen Punkt signifikant, was für den erfolgreichen Hack von Bedeutung ist. Während \verb|SMB_COM_TRANSACTION2| die Bytegröße der zu sendenden Daten in einem Header Parameter in WORD-Größe abspeichert, nutzt \verb|SMB_COM_NT_TRANSACTION| hierfür einen in DWORD-Größe. Das heißt, dass sehr große Parameterdaten gesendet werden können \cite{CP}.
+Die zwei Befehle samt deren Subcommands unterscheiden sich nur gering, aber in einem für den Exploit essentiellen Punkt signifikant, was für den erfolgreichen Hack von Bedeutung ist. Während \verb|SMB_COM_TRANSACTION2| die Bytegröße der zu sendenden Daten in einem Header Parameter in WORD-Größe abspeichert, nutzt \verb|SMB_COM_NT_TRANSACT| hierfür einen in DWORD-Größe. Das heißt, dass sehr große Parameterdaten gesendet werden können \cite{CP}.
 
 \noindent
-Ein weiterer wichtiger Faktor ist auch, dass nicht geprüft wird, mit welchem der beiden Befehle eine Transaktion gestartet wurde. Dieser Unterschied in der maximal adressierbaren Datenmenge der Transaktionsbefehlstypen und der Mangel an Validierung, ob der Transaktionsbefehl gleich bleibt, lassen sich für einen Angreifer ausnutzen, indem auf \verb|SMB_COM_NT_TRANSACT_SECONDARY| ein \verb|SMB_COM_TRANSACTION2| gesendet wird\cite{SS:EB}. Das wiederum führt zum Auslesen der falschen Daten und ermöglicht somit fehlerhaftes Parsen durch Behandeln des WORD-großen Header Parameters in \verb|_TRANSACTION2| als DWORD, was die FEAs malformed und somit ungültig werden lässt\cite{CP}.
+Ein weiterer wichtiger Faktor ist auch, dass nicht geprüft wird, mit welchem der beiden Befehle eine Transaktion gestartet wurde. Dieser Unterschied in der maximal adressierbaren Datenmenge der Transaktionsbefehlstypen und der Mangel an Validierung, ob der Transaktionsbefehl gleich bleibt, lassen sich für einen Angreifer ausnutzen, indem auf \verb|SMB_COM_NT_TRANSACT| ein \verb|SMB_COM_TRANSACTION2| gesendet wird\cite{SS:EB}. Das wiederum führt zum Auslesen der falschen Daten und ermöglicht somit fehlerhaftes Parsen durch Behandeln des WORD-großen Header Parameters in \verb|_TRANSACTION2| als DWORD, was die FEAs malformed und somit ungültig werden lässt\cite{CP}.
 
 \section{Beliebige Allokation von Speicher im Non-Paged Memory Pool}\label{sec:MemAlloc}
 Um eine Session beim Server über Port 445 aufbauen zu können, wird ein Authentifikationsrequest über die Funktion \verb|SMB_COM_SESSION_SETUP_ANDX| gesendet, was über IPC\$ einen anonymen User Logon beim Server etabliert und eine User ID kreiert \cite{MS:Auth}. Diese UID wird bei jeder der Transaktionen im SMB Header gesendet und ermöglicht das Zuordnen der Datenpakte zu einer Verbindung\cite{SS:EB}. Auch beim Etablieren des Logons gibt es wieder zwei unterschiedliche Formate, namentlich LM/NTLM und NTLMv2, auch bekannt als NTLM SSP. Diese besitzen bei eine ähnliche zweiteilige Struktur, welche aus zwei Blöcken, \verb|SMB_Parameters| und \verb|SMB_Data|, besteht \cite{MS:SMBCom}.
 
 \noindent
 \begin{minipage}{.45\textwidth}\label{LM/NTLM}
-\begin{lstlisting}[language=C,caption={LM/NTLM Auth Request},captionpos=b]
+\begin{lstlisting}[language=C,caption={LM/NTLM Request},captionpos=b]
 SMB_Parameters
 {
   //For this type of request
@@ -325,7 +325,7 @@ SMB_DATA
 \end{lstlisting}
 \end{minipage}\hfill
 \begin{minipage}{.45\textwidth}\label{NTLMv2}
-\begin{lstlisting}[language=C,caption={NTLMv2 Auth Request},captionpos=b]
+\begin{lstlisting}[language=C,caption={NTLMv2 Request},captionpos=b]
 SMB_Parameters
 {
   //for this type of request
@@ -371,7 +371,7 @@ Wie bei den meisten anderen Softwareproblemen empfielt sich, regelmäßig Update
 Da der Exploit eine ganze Kette an Bugs benötigt, die zusammen arbeiten, um einen erfolgreichen Hack durchzuführen, reichte es aus, dass der Typ von SizeOfListInBytes zu DWORD geändert wurde\cite{Scad:EB}, da hierdurch beim Reduzieren der Listengröße alle stellen der Zahl geupdated werden.
 Um zu überprüfen, ob eine Maschine die Sicherheitslücke noch aufweist, hat die Firma Sophos ein Powershell-Skript bereit gestellt, welches auf Windowsversion, Betriebssystem und Updates prüft, um anschließend die Verwundbarkeit auszuwerten\cite{SAV}.\\
 Neuere Windows 10 und Windows Server Installationen werden ab dem Fall Creators Update 2017 auch nicht mehr standardmäßig die seit 2014 offiziell als veraltet geltende SMBv1 Schnittstelle installiert haben. Sollte das Protokoll für Legacy Geräte noch benötigt werden, kann es aber jederzeit über die Windows-Features wieder installiert werden \cite{MS:Fix}.\\
-Da das SMBv1-Protokoll als relativ unsicher gilt und hauptsächlich für die Unterstützung alter Systeme benötigt wird, kann es auf den meisten Rechnern ohne negative Folgen deaktiviert bzw. deinstalliert werden \cite{WP}, da die neueren, üblicherweise bei der Installation schon akivierten SMB Versionen  seit einiger Zeit der neue Standard sind und mehr Funktionen aufweisen. Das kann zum Beispiel unter Windows 10 über die Funktion "Windows-Features" der Systemsteuerung gemacht werden. Es gilt seit jeher, dass Systemadministratoren in großen Netzwerken unbenutzte Ports stets geschlossen halten und obsolete und oder ungenutzte Protokolle deaktivieren sollten.\cite{TM:EB}
+Da das SMBv1-Protokoll als relativ unsicher gilt und hauptsächlich für die Unterstützung alter Systeme benötigt wird, kann es auf den meisten Rechnern ohne negative Folgen deaktiviert bzw. deinstalliert werden \cite{WP}, da die neueren, üblicherweise bei der Installation schon akivierten SMB Versionen  seit einiger Zeit der neue Standard sind und mehr Funktionen aufweisen. Das kann zum Beispiel unter Windows 10 über die Funktion ''Windows-Features'' der Systemsteuerung gemacht werden. Es gilt seit jeher, dass Systemadministratoren in großen Netzwerken unbenutzte Ports stets geschlossen halten und obsolete und oder ungenutzte Protokolle deaktivieren sollten.\cite{TM:EB}
 
 \chapter{Fazit}
 Wieder einmal zeigt ein Exploit auf, wie gefährlich in die Jahre gekommener Legacy Code auch für moderne Systeme sein kann. Besonders in einer Zeit, in der Regierungen solche Sicherheitslücken gezielt suchen und sammeln, um eine Art Rüstungskrieg mit dem Rest der Welt zu führen.\\
