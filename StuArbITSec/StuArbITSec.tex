@@ -289,7 +289,7 @@ Um eine Session beim Server über Port 445 aufbauen zu können, wird ein Authent
 
 \noindent
 \begin{minipage}{.45\textwidth}\label{LM/NTLM}
-\begin{lstlisting}[language=C,caption={LM/NTLM Request},captionpos=b]
+\begin{lstlisting}[language=C,caption={LM/NTLM Auth Request},captionpos=b]
 SMB_Parameters
 {
   //For this type of request
@@ -325,7 +325,7 @@ SMB_DATA
 \end{lstlisting}
 \end{minipage}\hfill
 \begin{minipage}{.45\textwidth}\label{NTLMv2}
-\begin{lstlisting}[language=C,caption={NTLMv2 Request},captionpos=b]
+\begin{lstlisting}[language=C,caption={NTLMv2 Auth Request},captionpos=b]
 SMB_Parameters
 {
   //for this type of request
